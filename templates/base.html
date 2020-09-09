@@ -63,7 +63,7 @@
                 {% else %}
                 {% set active = "" %}
                 {% endif %}
-                <li class="nav-item dropdown{{active}}">
+                <li class="nav-item dropdown {{active}}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{session["email"]}}
@@ -71,7 +71,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user">Me</a>
                         <a class="dropdown-item" href="#">Posts</a>
-                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="/settings">Settings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout">Log Out</a>
                     </div>

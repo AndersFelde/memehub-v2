@@ -4,6 +4,14 @@
 
 {% block content %}
 
-<h1>Welcome {{session["email"]}}</h1>
+<center>
+    <h1>Welcome {{session["email"]}}</h1>
+</center>
+
+{% if settings %}
+<p>Email: {{session["email"]}}</p>
+<p>Password: {{session["passwd"]}}</p>
+{% endif %}
+
 
 {% endblock %}
