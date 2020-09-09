@@ -1,15 +1,11 @@
 from flask import Flask, render_template
-# from pages.home import home
+from sites.home import homeS
+
 site = Flask(__name__)
+site.register_blueprint(homeS)
 # # fikse sesion
 # lage sign up / login
 # sette opp db mysql eller sqlalchemy ?
-
-
-@site.route("/")
-def home():
-    user = "joe"
-    return render_template("base.html", user=user)
 
 
 if __name__ == "__main__":
