@@ -1,20 +1,23 @@
 import json
 import mysql.connector
+import os
 # ssh -L 3306:localhost:3306 servster
 
 
 class db():
     def __init__(self):
-        # with open("creds.json") as credsFile:
-        #     creds = json.load(credsFile)
-        #     mySqlpasswd = creds["mysql"]["password"]
-        #     mySqluser = creds["mysql"]["user"]
-
+        try:
+            with open("/var/www/memehub-v2/creds.json") as credsFile:
+                creds = json.load(credsFile)
+                mySqlpasswd = creds["mysql"]["password"]
+                mySqluser = creds["mysql"]["user"]
+        except:
+            raise(CustomError(os.listdir()))
         # try:
         self.con = mysql.connector.connect(
             host="localhost",
-            user="admin",
-            password="Jegeradmin",
+            user=mySqluser,
+            password=mySqlpasswd,
             database="memehub",
             auth_plugin='mysql_native_password'
         )
