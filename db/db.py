@@ -32,7 +32,6 @@ class db():
             print(self.cursor.statement)
             return self.cursor.fetchall()
         except mysql.connector.Error as err:
-            print(self.cursor.statement)
             return err, "Error"
 
     def signup(self, email, user, passwd):
@@ -44,7 +43,6 @@ class db():
             print(self.cursor.statement)
             return self.cursor.rowcount, "record inserted"
         except mysql.connector.Error as err:
-            print(self.cursor.statement)
             return err, "Error"
 
     def select(self, objects, table):
@@ -61,7 +59,6 @@ class db():
                                 (objects, table, column, value))
             return self.cursor.fetchall()
         except mysql.connector.Error as err:
-            print(self.cursor.statement)
             return err, "Error"
 
     def insert(self, table, columns, values):
