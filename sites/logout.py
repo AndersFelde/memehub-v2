@@ -6,7 +6,7 @@ logout = Blueprint("logout", __name__, template_folder="templates",
 @logout.route("/logout")
 def logoutS():
     if session["email"]:
-        session.pop("email", None)
-        session.pop("passwd", None)
+        session.pop("email", False)
+        session.pop("user", False)
 
     return redirect(url_for("login.page"))
