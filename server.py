@@ -22,11 +22,11 @@ site.register_blueprint(user)
 site.register_blueprint(logout)
 site.register_blueprint(signup)
 
-with open("creds.json") as credsFile:
-    creds = json.load(credsFile)
-    key = creds["key"]
+# with open("creds.json") as credsFile:
+#     creds = json.load(credsFile)
+#     key = creds["key"]
 
-site.secret_key = key
+site.secret_key = "p6CVfomFtOhAb7pCuSXfBA"
 site.permanent_session_lifetime = timedelta(days=7)
 
 

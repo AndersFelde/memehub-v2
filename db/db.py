@@ -5,21 +5,22 @@ import mysql.connector
 
 class db():
     def __init__(self):
-        with open("creds.json") as credsFile:
-            creds = json.load(credsFile)
-            mySqlpasswd = creds["mysql"]["password"]
-            mySqluser = creds["mysql"]["user"]
+        # with open("creds.json") as credsFile:
+        #     creds = json.load(credsFile)
+        #     mySqlpasswd = creds["mysql"]["password"]
+        #     mySqluser = creds["mysql"]["user"]
 
-        try:
-            self.con = mysql.connector.connect(
-                host="localhost",
-                user=mySqluser,
-                password=mySqlpasswd,
-                database="memehub"
-            )
-            self.cursor = self.con.cursor()
-        except mysql.connector.Error as err:
-            print(err)
+        # try:
+        self.con = mysql.connector.connect(
+            host="localhost",
+            user="admin",
+            password="Jegeradmin",
+            database="memehub",
+            auth_plugin='mysql_native_password'
+        )
+        self.cursor = self.con.cursor()
+        # except mysql.connector.Error as err:
+        #     print(err)
 
     def login(self, email):
         try:
