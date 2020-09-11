@@ -1,18 +1,32 @@
 from datetime import timedelta
 from flask import Flask, render_template, session, request
-from sites.home import home
-from sites.login import login
-from sites.user import user
+import json
+# sites
 from sites.logout import logout
+from sites.user import user
+from sites.login import login
+from sites.home import home
+from sites.signup import signup
 
+# hente creds
+
+
+# db = db(mySqluser, mySqlpasswd)
+# print(db.insert("users", "email, passwd, username", "'joe@joe.com', 'joe', 'joe'"))
 
 site = Flask(__name__)
+
 site.register_blueprint(home)
 site.register_blueprint(login)
 site.register_blueprint(user)
 site.register_blueprint(logout)
+site.register_blueprint(signup)
 
-site.secret_key = "JoeMama"
+with open("creds.json") as credsFile:
+    creds = json.load(credsFile)
+    key = creds["key"]
+
+site.secret_key = key
 site.permanent_session_lifetime = timedelta(days=7)
 
 
