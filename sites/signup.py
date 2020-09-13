@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect, flash
-from db.db import db
+from modules.db import db
 # from database import dbase as db
 
 signup = Blueprint("signup", __name__, template_folder="templates",
@@ -20,7 +20,7 @@ def page():
             return render_template("signup.html", email=email, user=user)
 
         query = db.signup(email, user, passwd)
-        
+
         if "Error" not in query:
             session["email"] = email
             session["user"] = user

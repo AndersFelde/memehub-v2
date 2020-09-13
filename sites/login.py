@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect, flash
-from db.db import db
+from modules.db import db
 # from database import dbase as db
 
 login = Blueprint("login", __name__, template_folder="templates",
