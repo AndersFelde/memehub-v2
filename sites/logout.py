@@ -8,5 +8,6 @@ def logoutS():
     if session["email"]:
         session.pop("email", False)
         session.pop("user", False)
+        session.pop("userId", False)
 
     return redirect(url_for("login.page"))

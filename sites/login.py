@@ -7,14 +7,11 @@ login = Blueprint("login", __name__, template_folder="templates",
 
 db = db()
 
+# lage login som standalone module
 
-@login.route("/login", methods=["GET", "POST"])
-def page():
-    if request.method == "POST":
-        email = request.form["email"]
-        passwd = request.form["passwd"]
 
-        if passwd == "" or email == "":
+def logUserIn(email, passwd):
+    if passwd == "" or email == "":
             flash("Du kan ikke ha blankt passord, eller email", "error")
             return render_template("login.html", email=email)
 
@@ -26,6 +23,8 @@ def page():
                 if passwd == queryPasswd:
                     session["email"] = email
                     session["user"] = query[0][1]
+                    session["userId"] = query[0][2]
+                    print(session)
                     return redirect(url_for("user.page"))
                 else:
                     print(query)
@@ -39,6 +38,18 @@ def page():
             print(query)
             flash("Det skjedde noe galt, vennligst prøv igjen")
             return render_template("login.html", email=email)
+
+
+@login.route("/login", methods=["GET", "POST"])
+def page():
+    print(request.method)
+    if request.method == "POST":
+        email = request.form["email"]
+        passwd = request.form["passwd"]
+        
+        return logUserIn(email, passwd)
+
+        
 
     else:
         if isinstance(session.get("email"), str):

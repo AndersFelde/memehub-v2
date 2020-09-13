@@ -23,7 +23,7 @@ class db():
 
     def login(self, email):
         try:
-            self.cursor.execute("""SELECT passwd, username FROM users where email = %s""",
+            self.cursor.execute("""SELECT passwd, username, userId FROM users where email = %s""",
                                 (email,))
             print(self.cursor.statement)
             return self.cursor.fetchall()
@@ -34,13 +34,23 @@ class db():
     def signup(self, email, user, passwd):
         try:
             self.cursor.execute(
-                """INSERT INTO users (email, username, passwd) VALUES (%s, %s, %s)""",
+                """INSERT INTO users (email, username, passwd) VALUES (%s, %s, %s);""",
                 (email, user, passwd))
+            print(self.cursor.statement)
             self.con.commit()
             print(self.cursor.statement)
             return self.cursor.rowcount, "record inserted"
         except mysql.connector.Error as err:
-            print(self.cursor.statement)
+            return err, "Error"
+
+    def fileUpload(self, filename, userId):
+        try:
+            self.cursor.execute(
+                """INSERT INTO uploads (filename, userId) VALUES (%s, %s);""",
+                (filename, userId))
+            self.con.commit()
+            return self.cursor.rowcount, "record inserted"
+        except mysql.connector.Error as err:
             return err, "Error"
 
     def select(self, objects, table):
