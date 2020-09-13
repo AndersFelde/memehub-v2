@@ -24,7 +24,7 @@ def page():
         if "Error" not in query:
             session["email"] = email
             session["user"] = user
-            return redirect(url_for("user.page"))
+            return redirect(url_for("login.page"), code=302)
         else:
             print(query)
             flash("Brukernavnet eller mailen er allerede i bruk")

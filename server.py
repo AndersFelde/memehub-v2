@@ -7,6 +7,7 @@ from sites.user import user
 from sites.login import login
 from sites.home import home
 from sites.signup import signup
+from sites.upload import upload
 
 # hente creds
 
@@ -21,6 +22,7 @@ site.register_blueprint(login)
 site.register_blueprint(user)
 site.register_blueprint(logout)
 site.register_blueprint(signup)
+site.register_blueprint(upload)
 
 with open("creds.json") as credsFile:
     creds = json.load(credsFile)
