@@ -31,7 +31,9 @@ with open("creds.json") as credsFile:
 site.secret_key = key
 site.permanent_session_lifetime = timedelta(days=7)
 
-
+site.config['UPLOAD_FOLDER'] = "static\\uploads"
+UPLOADED_FILES_DEST = "static\\uploads"
+UPLOADS_DEFAULT_DEST = "static\\uploads"
 # # fikse sesion
 # lage sign up / login
 # sette opp db mysql eller sqlalchemy ?

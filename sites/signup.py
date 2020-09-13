@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect, flash
 from modules.db import db
+from modules.userAuth import logUserIn
 # from database import dbase as db
 
 signup = Blueprint("signup", __name__, template_folder="templates",
@@ -22,9 +23,13 @@ def page():
         query = db.signup(email, user, passwd)
 
         if "Error" not in query:
-            session["email"] = email
-            session["user"] = user
-            return redirect(url_for("login.page"), code=302)
+            login = logUserIn(email, passwd)
+            if login[0]:
+                return login[1]
+            else:
+                flash(login[1])
+                return login[2]
+
         else:
             print(query)
             flash("Brukernavnet eller mailen er allerede i bruk")

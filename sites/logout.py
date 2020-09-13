@@ -9,5 +9,6 @@ def logoutS():
         session.pop("email", False)
         session.pop("user", False)
         session.pop("userId", False)
+        session.pop("secret", False)
 
     return redirect(url_for("login.page"))
