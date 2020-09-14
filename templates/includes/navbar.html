@@ -1,0 +1,72 @@
+{%set activePath = request.path%}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+        <img src="/static/logo.png" height="35" alt="" loading="lazy">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            {% if activePath == "/home" or activePath == "/" %}
+            {% set active = "active" %}
+            {% else %}
+            {% set active = "" %}
+            {% endif %}
+            <li class="nav-item {{active}}">
+                <a class="nav-link" href="/home">Home
+                </a>
+            </li>
+            {% if activePath == "/hot" %}
+            {% set active = "active" %}
+            {% else %}
+            {% set active = "" %}
+            {% endif %}
+            <li class="nav-item {{active}}">
+                <a class="nav-link" href="#">Hot
+                </a>
+            </li>
+            {% if activePath == "/search" %}
+            {% set active = "active" %}
+            {% else %}
+            {% set active = "" %}
+            {% endif %}
+            <li class="nav-item {{active}}">
+                <a class="nav-link" href="#">Search
+                </a>
+            </li>
+            {% if session["email"]%}
+            {% if activePath == "/user" %}
+            {% set active = "active" %}
+            {% else %}
+            {% set active = "" %}
+            {% endif %}
+            <li class="nav-item dropdown {{active}}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{session["user"]}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/user">Me</a>
+                    <a class="dropdown-item" href="#">Posts</a>
+                    <a class="dropdown-item" href="/settings">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">Log Out</a>
+                </div>
+            </li>
+            {% else %}
+            {% if activePath == "/login" %}
+            {% set active = "active" %}
+            {% else %}
+            {% set active = "" %}
+            {% endif %}
+            <li class="nav-item {{active}}">
+                <a class="nav-link" href="login">Login
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>

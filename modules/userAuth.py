@@ -25,16 +25,22 @@ def logUserIn(email, passwd):
         return (False, "Epost eller passord er feil", redirect(url_for("login.page")))
 
 
+def __checkSession():
+    if "userId" in session:
+        if isinstance(session["userId"], int):
+            return True
+    return False
+
+
 def validateUser():
-    try:
-        userId = session["userId"]
-    except:
+
+    if not __checkSession():
         return False
 
+    userId = session["userId"]
     query = db.userValidation(userId)
     if "Error" not in query and len(query) > 0:
         if session["secret"] == query[0][0]:
             print(f"Validated user: {userId}")
             return True
-
     return False

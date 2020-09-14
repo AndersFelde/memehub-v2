@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect, flash
 from modules.db import db
-from modules.userAuth import logUserIn
+from modules.userAuth import logUserIn, validateUser
 # from database import dbase as db
 
 login = Blueprint("login", __name__, template_folder="templates",
@@ -8,9 +8,9 @@ login = Blueprint("login", __name__, template_folder="templates",
 
 db = db()
 
+
 @login.route("/login", methods=["GET", "POST"])
 def page():
-    print(request.method)
     if request.method == "POST":
         email = request.form["email"]
         passwd = request.form["passwd"]
@@ -27,6 +27,6 @@ def page():
             return render_template("login.html", email=email)
 
     else:
-        if isinstance(session.get("email"), str):
+        if validateUser():
             return redirect(url_for("user.page"))
         return render_template("login.html")
