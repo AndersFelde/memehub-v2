@@ -43,16 +43,27 @@
             {% set active = "" %}
             {% endif %}
             <li class="nav-item dropdown {{active}}">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    {{session["user"]}}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/user">Me</a>
-                    <a class="dropdown-item" href="#">Posts</a>
-                    <a class="dropdown-item" href="/settings">Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Log Out</a>
+                <div class="btn-group">
+                    <a class="btn btn-primary btn-md {{active}}" href="/user" role="button">
+                        {{session["user"]}}
+                    </a>
+                    {% if activePath in ["/settings", "/posts"] %}
+                    {% set active = "active" %}
+                    {% else %}
+                    {% set active = "" %}
+                    {% endif %}
+                    <button type="button"
+                        class="{{ active }} btn btn-md btn-primary dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/user">Me</a>
+                        <a class="dropdown-item" href="#">Posts</a>
+                        <a class="dropdown-item" href="/settings">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Log Out</a>
+                    </div>
                 </div>
             </li>
             {% else %}

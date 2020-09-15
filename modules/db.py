@@ -27,7 +27,7 @@ class db():
     def __query(self, execute):
         self.connect()
         try:
-            if execute[0][:3] == "SEL" or execute[:3]:
+            if execute[0][:3] == "SEL" or execute[:3] == "SEL":
                 # fordi det kan være string eller tuple
 
                 if isinstance(execute, tuple):
@@ -45,6 +45,7 @@ class db():
                 return self.cursor.rowcount, "record inserted"
         except mysql.connector.Error as err:
             print(self.cursor.statement)
+            print(err)
             return err, "Error"
 
     def login(self, email):
@@ -63,12 +64,31 @@ class db():
                              (userId,)))
 
     def getUploadsByUser(self, userId):
-        return self.__query(("""SELECT uploads.filename, users.username from uploads join users on uploads.userId = users.userId
+        return self.__query(("""SELECT uploads.filename, users.username, uploads.uploadId from uploads join users on uploads.userId = users.userId
                             where uploads.userId = %s""",
                              (userId,)))
 
     def getUploads(self):
-        return self.__query("SELECT uploads.filename, users.username from uploads join users on uploads.userId = users.userId")
+        return self.__query("SELECT uploads.filename, users.username, uploads.uploadId from uploads join users on uploads.userId = users.userId")
+
+
+# VOTES
+
+    def getVote(self, userId, uploadId):
+        return self.__query(("""SELECT vote from votes where userId = %s and uploadId = %s""", (userId, uploadId)))
+
+    def insertVote(self, userId, uploadId, vote):
+        return self.__query(("""INSERT INTO votes (userId, uploadId, vote) VALUES (%s, %s, %s);""", (userId, uploadId, vote)))
+
+    def updateVote(self, userId, uploadId, vote):
+        return self.__query(("""UPDATE votes set vote = %s where userId = %s and uploadId = %s""", (vote, userId, uploadId)))
+
+    def delVote(self, userId, uploadId):
+        return self.__query(("""DELETE FROM votes where userId = %s and uploadId = %s""", (userId, uploadId)))
+
+    def getUserVotes(self, userId):
+        return self.__query(("""SELECT vote, uploadId from votes where userId = %s""", (userId,)))
+
         # ekstra tuple på slutten fordi man "må" ha det - billig løsning
 
     #         print(self.cursor.statement)

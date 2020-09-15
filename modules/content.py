@@ -1,5 +1,6 @@
 from modules.db import db
-from modules.userAuth import validateUser
+from flask import session
+
 db = db()
 
 
@@ -8,4 +9,13 @@ def content(userId=False):
         query = db.getUploads()
     else:
         query = db.getUploadsByUser(userId)
-    return query
+
+    votes = db.getUserVotes(session["userId"])
+    return [query, votes]
+
+
+def setActive(uploadId, btnType, query):
+    for row in query:
+        if uploadId == row[1] and btnType == row[0]:
+            return "active"
+    return ""
