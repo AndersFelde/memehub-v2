@@ -14,23 +14,17 @@ def page():
         uploadId = request.form["uploadId"]
         btnType = int(request.form["btnType"])
 
-        print(uploadId, btnType)
-
         vote = db.getVote(session["userId"], uploadId)
 
         if "Error" not in vote:
             if len(vote) > 0:
                 newVote = convertVote(btnType, int(vote[0][0]))
-                print(newVote)
                 if isinstance(newVote, int):
-                    print("int")
                     query = db.updateVote(session["userId"], uploadId, newVote)
                 else:
-                    print("string")
                     query = db.delVote(session["userId"], uploadId)
                 # reverse av vote
             else:
-                print("insert")
                 query = db.insertVote(session["userId"], uploadId, btnType)
 
             if "Errror" not in query:
@@ -44,5 +38,4 @@ def convertVote(btnType, vote):
     if btnType == vote:
         return "DEL"
     else:
-        print("Ikke lik")
         return int(not vote)

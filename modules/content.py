@@ -17,5 +17,5 @@ def content(userId=False):
 def setActive(uploadId, btnType, query):
     for row in query:
         if uploadId == row[1] and btnType == row[0]:
-            return "active"
+            return "active-vote"
     return ""

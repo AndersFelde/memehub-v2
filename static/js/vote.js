@@ -11,7 +11,7 @@ function vote(uploadId, btn) {
         "btnType": btnType
     }, function (data) {
         if (data["Error"]) {
-            btn.classList.remove("active")
+            btn.classList.remove("active-vote");
         }
     });
 }
@@ -25,12 +25,12 @@ function convertActive(clickedBtn, btnType) {
     }
 
 
-    if (clickedBtn.classList.contains("active")) {
-        clickedBtn.classList.remove("active");
+    if (clickedBtn.classList.contains("active-vote")) {
+        clickedBtn.classList.remove("active-vote");
     } else {
-        clickedBtn.classList.add("active");
-        if (otherBtn.classList.contains("active")) {
-            otherBtn.classList.remove("active");
+        clickedBtn.classList.add("active-vote");
+        if (otherBtn.classList.contains("active-vote")) {
+            otherBtn.classList.remove("active-vote");
         }
     }
 }

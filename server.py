@@ -8,7 +8,7 @@ from sites.login import login
 from sites.home import home
 from sites.signup import signup
 from sites.upload import upload
-from sites.voter import voter
+from sites.api.voter import voter
 
 # hente creds
 
