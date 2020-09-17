@@ -1,0 +1,28 @@
+<div class="container" style="max-width: 40%;">
+    <center>
+        {% if query %}
+        {% for upload in query[0] %}
+        <div class="row">
+            <div class="col-sm">
+                <h1>{{ upload[1] }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <img src="static/uploads/{{ upload[0] }}" class="rounded mx-auto d-block img-fluid" alt="...">
+            </div>
+        </div>
+        <div class="row" styl="margin-top: 10%">
+            <div class="col-sm">
+                <button id="uVote-{{upload[2]}}" class="btn btn-success {{ setActive(upload[2], 1, query[1]) }}"
+                    onClick="vote({{upload[2]}}, this)">+1</button>
+            </div>
+            <div class="col-sm">
+                <button id="dVote-{{upload[2]}}" class="btn btn-danger {{ setActive(upload[2], 0, query[1]) }}"
+                    onClick="vote({{upload[2]}}, this)">-1</button>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </center>
+</div>

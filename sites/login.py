@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect, flash
-from db.db import db
+from modules.db import db
+from modules.userAuth import logUserIn, validateUser
 # from database import dbase as db
 
 login = Blueprint("login", __name__, template_folder="templates",
@@ -14,33 +15,18 @@ def page():
         email = request.form["email"]
         passwd = request.form["passwd"]
 
-        if passwd == "" or email == "":
-            flash("Du kan ikke ha blankt passord, eller email", "error")
-            return render_template("login.html", email=email)
-
-        query = db.login(email)
-
-        if "Error" not in query:
-            if len(query) > 0:
-                queryPasswd = query[0][0]
-                if passwd == queryPasswd:
-                    session["email"] = email
-                    session["user"] = query[0][1]
-                    return redirect(url_for("user.page"))
-                else:
-                    print(query)
-                    flash("Epost eller passord er feil")
-                    return render_template("login.html", email=email)
+        if email != "" and passwd != "":
+            login = logUserIn(email, passwd)
+            if login[0]:
+                return login[1]
             else:
-                print(query)
-                flash("Epost eller passord er feil")
-                return render_template("login.html", email=email)
+                flash(login[1])
+                return login[2]
         else:
-            print(query)
-            flash("Det skjedde noe galt, vennligst prøv igjen")
+            flash("Du kan ikke ha tomt brukernavn eller passord")
             return render_template("login.html", email=email)
 
     else:
-        if isinstance(session.get("email"), str):
+        if validateUser():
             return redirect(url_for("user.page"))
         return render_template("login.html")
