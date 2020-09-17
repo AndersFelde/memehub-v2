@@ -1,6 +1,0 @@
-- SQL-injection
-- ProfilBilde
-- Fikse navbar
-- Generere random string for å unngå account hijack?
-    - kan brukere sette session variabel selv?
-

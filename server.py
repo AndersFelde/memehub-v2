@@ -7,6 +7,8 @@ from sites.user import user
 from sites.login import login
 from sites.home import home
 from sites.signup import signup
+from sites.upload import upload
+from sites.api.voter import voter
 
 # hente creds
 
@@ -21,15 +23,19 @@ site.register_blueprint(login)
 site.register_blueprint(user)
 site.register_blueprint(logout)
 site.register_blueprint(signup)
+site.register_blueprint(upload)
+site.register_blueprint(voter)
 
-with open("/var/www/memehub-v2/creds.json") as credsFile:
+with open("creds.json") as credsFile:
     creds = json.load(credsFile)
     key = creds["key"]
 
 site.secret_key = key
 site.permanent_session_lifetime = timedelta(days=7)
 
-
+site.config['UPLOAD_FOLDER'] = "static\\uploads"
+UPLOADED_FILES_DEST = "static\\uploads"
+UPLOADS_DEFAULT_DEST = "static\\uploads"
 # # fikse sesion
 # lage sign up / login
 # sette opp db mysql eller sqlalchemy ?

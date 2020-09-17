@@ -5,99 +5,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
-
+    <script type="text/javascript" src="/static/js/vote.js"></script>
     <link rel="icon" href="/static/favicon.png">
+    <link rel="stylesheet" href="/static/css/index.css">
 </head>
 
 <body>
-    {%set activePath = request.path%}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-            <img src="/static/logo.png" height="35" alt="" loading="lazy">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                {% if activePath == "/home" %}
-                {% set active = "active" %}
-                {% else %}
-                {% set active = "" %}
-                {% endif %}
-                <li class="nav-item {{active}}">
-                    <a class="nav-link" href="/home">Home
-                    </a>
-                </li>
-                {% if activePath == "/hot" %}
-                {% set active = "active" %}
-                {% else %}
-                {% set active = "" %}
-                {% endif %}
-                <li class="nav-item {{active}}">
-                    <a class="nav-link" href="#">Hot
-                    </a>
-                </li>
-                {% if activePath == "/search" %}
-                {% set active = "active" %}
-                {% else %}
-                {% set active = "" %}
-                {% endif %}
-                <li class="nav-item {{active}}">
-                    <a class="nav-link" href="#">Search
-                    </a>
-                </li>
-                {% if session["email"]%}
-                {% if activePath == "/user" %}
-                {% set active = "active" %}
-                {% else %}
-                {% set active = "" %}
-                {% endif %}
-                <li class="nav-item dropdown {{active}}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{session["user"]}}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user">Me</a>
-                        <a class="dropdown-item" href="#">Posts</a>
-                        <a class="dropdown-item" href="/settings">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">Log Out</a>
-                    </div>
-                </li>
-                {% else %}
-                {% if activePath == "/login" %}
-                {% set active = "active" %}
-                {% else %}
-                {% set active = "" %}
-                {% endif %}
-                <li class="nav-item {{active}}">
-                    <a class="nav-link" href="login">Login
-                    </a>
-                </li>
-                {% endif %}
-
-            </ul>
-        </div>
-    </nav>
+    {% include "includes/navbar.html" %}
     <center>
         <h1>Welcome to Memehub</h1>
+        <p style="color:red" name="messages">
+            {% for message in get_flashed_messages() %}
+            {{ message }}
+            {% endfor %}
+        </p>
     </center>
-    <p style="color:red" name="messages">
-        {% for message in get_flashed_messages() %}
-        {{ message }}
-        {% endfor %}
-    </p>
     {% block content %}{% endblock %}
 </body>
