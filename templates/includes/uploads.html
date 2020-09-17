@@ -1,25 +1,39 @@
 <div class="container" style="max-width: 40%;">
     <center>
-        {% if query %}
-        {% for upload in query[0] %}
+        {% if uploads %}
+        {% for post in uploads.content %}
         <div class="row">
             <div class="col-sm">
-                <h1>{{ upload[1] }}</h1>
+                <h1>{{ post[1] }}</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-sm">
-                <img src="static/uploads/{{ upload[0] }}" class="rounded mx-auto d-block img-fluid" alt="...">
+                <img src="static/uploads/{{ post[0] }}" class="rounded mx-auto d-block img-fluid" alt="...">
             </div>
         </div>
         <div class="row" styl="margin-top: 10%">
             <div class="col-sm">
-                <button id="uVote-{{upload[2]}}" class="btn btn-success {{ setActive(upload[2], 1, query[1]) }}"
-                    onClick="vote({{upload[2]}}, this)">+1</button>
+                <button id="uVote-{{post[2]}}" class="btn btn-success {{ uploads.setActive(post[2], 1) }}"
+                    onClick="vote({{post[2]}}, this)">+1</button>
+                <div id="uCount-{{post[2]}}">
+                    {% if post[2] in uploads.amountVotes and 1 in uploads.amountVotes[post[2]] %}
+                    {{uploads.amountVotes[post[2]][1] }}
+                    {% else %}
+                    0
+                    {% endif %}
+                </div>
             </div>
             <div class="col-sm">
-                <button id="dVote-{{upload[2]}}" class="btn btn-danger {{ setActive(upload[2], 0, query[1]) }}"
-                    onClick="vote({{upload[2]}}, this)">-1</button>
+                <button id="dVote-{{post[2]}}" class="btn btn-danger {{ uploads.setActive(post[2], 0) }}"
+                    onClick="vote({{post[2]}}, this)">-1</button>
+                <div id="dCount-{{post[2]}}">
+                    {% if post[2] in uploads.amountVotes and 0 in uploads.amountVotes[post[2]] %}
+                    {{uploads.amountVotes[post[2]][0] }}
+                    {% else %}
+                    0
+                    {% endif %}
+                </div>
             </div>
         </div>
         {% endfor %}

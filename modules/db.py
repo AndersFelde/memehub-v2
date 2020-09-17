@@ -74,8 +74,6 @@ class db():
 
 # VOTES
 
-    def getVote(self, userId, uploadId):
-        return self.__query(("""SELECT vote from votes where userId = %s and uploadId = %s""", (userId, uploadId)))
 
     def insertVote(self, userId, uploadId, vote):
         return self.__query(("""INSERT INTO votes (userId, uploadId, vote) VALUES (%s, %s, %s);""", (userId, uploadId, vote)))
@@ -89,32 +87,10 @@ class db():
     def getUserVotes(self, userId):
         return self.__query(("""SELECT vote, uploadId from votes where userId = %s""", (userId,)))
 
-        # ekstra tuple på slutten fordi man "må" ha det - billig løsning
+    def getAmountVotes(self):
+        return self.__query(
+            """SELECT uploadId, vote, count(*) from votes group by vote, uploadId""")
 
-    #         print(self.cursor.statement)
-
-    # def select(self, objects, table):
-    #     try:
-    #         self.cursor.execute("""SELECT %s FROM %s""",
-    #                             (objects, table))
-    #         return self.cursor.fetchall()
-    #     except mysql.connector.Error as err:
-    #         return err, "Error"
-
-    # def where(self, objects, table, column, value):
-    #     try:
-    #         self.cursor.execute("""SELECT %s FROM %s where %s = %s""",
-    #                             (objects, table, column, value))
-    #         return self.cursor.fetchall()
-    #     except mysql.connector.Error as err:
-    #         print(self.cursor.statement)
-    #         return err, "Error"
-
-    # def insert(self, table, columns, values):
-    #     try:
-    #         self.cursor.execute(
-    #             """INSERT INTO %s (%s) VALUES (%s)""", (table, columns, values))
-    #         self.con.commit()
-    #         return self.cursor.rowcount, "record inserted"
-    #     except mysql.connector.Error as err:
-    #         return err, "Error"
+    # for voter API
+    def getVote(self, userId, uploadId):
+        return self.__query(("""SELECT vote from votes where userId = %s and uploadId = %s""", (userId, uploadId)))

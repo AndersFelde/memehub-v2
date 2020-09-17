@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session
-from modules.content import content, setActive
+from modules.uploads import uploads
 from modules.userAuth import validateUser
 home = Blueprint("home", __name__, template_folder="templates",
                  static_folder="static")
@@ -9,10 +9,9 @@ home = Blueprint("home", __name__, template_folder="templates",
 @home.route("/home")
 def page():
     if validateUser():
-        query = content()
-        if "Error" not in query:
-            return render_template("home.html", query=query, setActive=setActive)
+        upload = uploads()
+        return render_template("home.html", uploads=upload)
+        # content burde være objekt som har alle funksjoner og attributer innebygd, kan accesse den inni HTML
 
-        return render_template("home.html")
     else:
         return render_template("home.html")

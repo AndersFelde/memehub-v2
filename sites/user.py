@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, session, url_for, redirect
 from modules.userAuth import validateUser
-from modules.content import content, setActive
+from modules.uploads import uploads
 user = Blueprint("user", __name__, template_folder="templates",
                  static_folder="static")
 
@@ -8,10 +8,8 @@ user = Blueprint("user", __name__, template_folder="templates",
 @user.route("/user")
 def page():
     if validateUser():
-        query = content(session["userId"])
-        if "Error" not in query:
-            return render_template("user.html", query=query, setActive=setActive)
-        return render_template("user.html")
+        upload = uploads(session["userId"])
+        return render_template("user.html", uploads=upload)
     else:
         return redirect(url_for("login.page"))
 
