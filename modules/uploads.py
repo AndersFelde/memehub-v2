@@ -8,16 +8,29 @@ class uploads():
         self.db = db()
         self.userId = userId
         self.content = self.getContent()
+        self.times = self.getTimes()
+        print(self.times)
         self.userVotes = self.getUserVotes()
         self.amountVotes = self.getAmountVotes()
-        print(self.amountVotes)
 
     def getContent(self):
         if not self.userId:
             query = self.db.getUploads()
         else:
             query = self.db.getUploadsByUser(self.userId)
+
+        # filename, username, id, time
+        self.times = {}
+        for row in query:
+            self.times[row[2]] = list(row[3])
         return query
+
+    def getTimes(self):
+        times = {}
+        for row in self.content:
+            times[row[2]] = row[3].split(",")
+
+        return times
 
     def getUserVotes(self):
         query = self.db.getUserVotes(session["userId"])
@@ -40,3 +53,7 @@ class uploads():
         if uploadId in self.userVotes and btnType == self.userVotes[uploadId]:
             return "active-vote"
         return ""
+
+    def timeDifference(self, timeArr):
+        # [year, month, date, hours, minutes, seconds]
+        timeConversion = {}

@@ -3,6 +3,7 @@ import mysql.connector
 import binascii
 import os
 from flask import session
+from datetime import datetime
 # ssh -L 3306:localhost:3306 servster
 
 
@@ -57,19 +58,21 @@ class db():
                              (email, user, passwd, secret)))
 
     def fileUpload(self, filename, userId):
-        return self.__query(("""INSERT INTO uploads (filename, userId) VALUES (%s, %s);""", (filename, userId)))
+        nowTime = datetime.now()
+        currentTime = nowTime.strftime("%Y,%m,%d,%H,%M,%S")
+        return self.__query(("""INSERT INTO uploads (filename, userId, time) VALUES (%s, %s, %s);""", (filename, userId, currentTime)))
 
     def userValidation(self, userId):
         return self.__query(("""SELECT secret FROM users where userId = %s""",
                              (userId,)))
 
     def getUploadsByUser(self, userId):
-        return self.__query(("""SELECT uploads.filename, users.username, uploads.uploadId from uploads join users on uploads.userId = users.userId
+        return self.__query(("""SELECT uploads.filename, users.username, uploads.uploadId, uploads.time from uploads join users on uploads.userId = users.userId
                             where uploads.userId = %s""",
                              (userId,)))
 
     def getUploads(self):
-        return self.__query("SELECT uploads.filename, users.username, uploads.uploadId from uploads join users on uploads.userId = users.userId")
+        return self.__query("SELECT uploads.filename, users.username, uploads.uploadId, uploads.time from uploads join users on uploads.userId = users.userId")
 
 
 # VOTES

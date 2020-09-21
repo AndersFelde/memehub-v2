@@ -12,6 +12,11 @@
                 <img src="static/uploads/{{ post[0] }}" class="rounded mx-auto d-block img-fluid" alt="...">
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm">
+                {{uploads.times[post[2]] }}
+            </div>
+        </div>
         <div class="row" styl="margin-top: 10%">
             <div class="col-sm">
                 <button id="uVote-{{post[2]}}" class="btn btn-success {{ uploads.setActive(post[2], 1) }}"
